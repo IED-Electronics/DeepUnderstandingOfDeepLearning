@@ -1,0 +1,6 @@
+INSTANCE_NAME=notebook-test-USER
+INSTANCE_TYPE=g4dn.xlarge
+SG_NAME=notebook-test-USER
+VPC_ID=vpc-0b485b5c51f2caab5
+SUBNET_ID=subnet-08e909cf9318962c4
+JUPYTER_TOKEN=ba0c34b22a71b691ee3c7fb6
