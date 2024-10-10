@@ -38,13 +38,14 @@ create-sg:
 	else \
 		echo "Security group already exists"; \
 	fi;
+	
 
 create-instance: create-sg
 	@SG_ID=$$(aws ec2 describe-security-groups --filters "Name=group-name,Values=$(SG_NAME)" "Name=vpc-id,Values=$(VPC_ID)" --query 'SecurityGroups[0].GroupId' --output text); \
 	sed 's/--NotebookApp.token="[^"]*"/--NotebookApp.token="$(JUPYTER_TOKEN)"/' user-data-instance.sh > user-data-instance.sh.tmp; \
 	INSTANCE_ID=$$(aws ec2 run-instances \
 		--subnet-id $(SUBNET_ID) \
-		--image-id ami-0fa8fe6f147dc938b \
+		--image-id ami-08826d95c234de246 \
 		--instance-type $(INSTANCE_TYPE) \
  		--security-group-ids $$SG_ID \
 		--iam-instance-profile Name=AmazonSSMRoleForInstancesQuickSetup \
@@ -66,7 +67,7 @@ forward-port:
 
 start-instance:
 	aws ec2 start-instances --instance-ids $(INSTANCE_ID); \
-	@echo "Instance $(INSTANCE_ID) started."; 
+	echo "Instance $(INSTANCE_ID) started."; 
 	echo "Please wait a little for the instance to be ready."; \
 	echo "Then you can use the command 'make forward-port'"; \
 	echo "Finally you will have to connect the python notebook to the kernel in the following url:"; \
@@ -102,4 +103,4 @@ install-requirements:
 	aws ssm send-command --instance-ids "$(INSTANCE_ID)" --document-name "AWS-RunShellScript" --parameters commands="$$COMMANDS"
 
 install-requirements-output:
-	aws ssm get-command-invocation --command-id "9dc1e4e9-cd3f-4b07-8839-fdae0d42bce3" --instance-id "$(INSTANCE_ID)"
+	aws ssm get-command-invocation --command-id "da522c8f-816f-477a-9fb7-60c2b7a50434" --instance-id "$(INSTANCE_ID)"
