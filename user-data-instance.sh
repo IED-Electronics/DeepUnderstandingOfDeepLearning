@@ -7,10 +7,26 @@ echo "Anaconda3 installed!"
 
 # Add conda initialization to /etc/bash.bashrc for all users
 echo 'eval "$(/home/ubuntu/anaconda3/bin/conda shell.bash hook)"' | sudo tee -a /etc/bash.bashrc
-echo 'jupyter lab --NotebookApp.token="$JUPYTER_TOKEN" --allow-root --no-browser' | sudo tee -a /etc/bash.bashrc
 
-# Source /etc/bash.bashrc to apply changes immediately
-source /etc/bash.bashrc
+# Create systemd service for Jupyter Lab
+sudo bash -c 'cat <<EOF > /etc/systemd/system/jupyterlab.service
+[Unit]
+Description=Jupyter Lab
+After=network.target
 
-# Start Jupyter Lab
-jupyter lab --NotebookApp.token="$JUPYTER_TOKEN" --allow-root --no-browser
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/anaconda3/bin/jupyter lab --NotebookApp.token="\$JUPYTER_TOKEN" --allow-root --no-browser
+User=root
+WorkingDirectory=/root
+Environment="JUPYTER_TOKEN=your_token_here"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+# Reload systemd and enable the Jupyter Lab service
+sudo systemctl daemon-reload
+sudo systemctl enable jupyterlab.service
+sudo systemctl start jupyterlab.service
