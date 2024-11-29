@@ -77,6 +77,8 @@ stop-instance:
 	aws ec2 stop-instances --instance-ids $(INSTANCE_ID)
 	@echo "Instance $(INSTANCE_ID) stopped."
 
+restart-instance: stop-instance start-instance
+
 destroy-sg:
 	@SG_ID=$$(aws ec2 describe-security-groups --filters "Name=group-name,Values=$(SG_NAME)" "Name=vpc-id,Values=$(VPC_ID)" --query 'SecurityGroups[0].GroupId' --output text); \
 	aws ec2 delete-security-group --group-id $$SG_ID; \
@@ -103,4 +105,4 @@ install-requirements:
 	aws ssm send-command --instance-ids "$(INSTANCE_ID)" --document-name "AWS-RunShellScript" --parameters commands="$$COMMANDS"
 
 install-requirements-output:
-	aws ssm get-command-invocation --command-id "da522c8f-816f-477a-9fb7-60c2b7a50434" --instance-id "$(INSTANCE_ID)"
+	aws ssm get-command-invocation --command-id "f32382a5-4167-4994-9f5e-f59b9054a80f" --instance-id "$(INSTANCE_ID)"
