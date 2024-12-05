@@ -3,3 +3,5 @@
 instances.config
 requirements.txt
 **/MNIST/**
+**/cifar10/**
+**/models/**
