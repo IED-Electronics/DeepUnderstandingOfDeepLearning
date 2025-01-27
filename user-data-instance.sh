@@ -8,6 +8,9 @@ echo "Anaconda3 installed!"
 # Add conda initialization to /etc/bash.bashrc for all users
 echo 'eval "$(/home/ubuntu/anaconda3/bin/conda shell.bash hook)"' | sudo tee -a /etc/bash.bashrc
 
+# Source the bash.bashrc to ensure the environment is set up
+source /etc/bash.bashrc
+
 # Create systemd service for Jupyter Lab
 sudo bash -c 'cat <<EOF > /etc/systemd/system/jupyterlab.service
 [Unit]
