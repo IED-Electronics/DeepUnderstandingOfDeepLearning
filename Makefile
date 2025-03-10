@@ -45,7 +45,7 @@ create-instance: create-sg
 	sed 's/--NotebookApp.token="[^"]*"/--NotebookApp.token="$(JUPYTER_TOKEN)"/' user-data-instance.sh > user-data-instance.sh.tmp; \
 	INSTANCE_ID=$$(aws ec2 run-instances \
 		--subnet-id $(SUBNET_ID) \
-		--image-id ami-08826d95c234de246 \
+		--image-id $(AMI) \
 		--instance-type $(INSTANCE_TYPE) \
  		--security-group-ids $$SG_ID \
 		--iam-instance-profile Name=AmazonSSMRoleForInstancesQuickSetup \
