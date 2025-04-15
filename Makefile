@@ -105,4 +105,4 @@ install-requirements:
 	aws ssm send-command --instance-ids "$(INSTANCE_ID)" --document-name "AWS-RunShellScript" --parameters commands="$$COMMANDS"
 
 install-requirements-output:
-	aws ssm get-command-invocation --command-id "744117aa-ce0a-4855-a2cd-df9cff97b60c" --instance-id "$(INSTANCE_ID)"
+	aws ssm get-command-invocation --command-id "84985691-fccf-480b-ae16-3c0499618907" --instance-id "$(INSTANCE_ID)"

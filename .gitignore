@@ -3,5 +3,6 @@
 instances.config
 requirements.txt
 **/MNIST/**
+**/FashionMNIST/**
 **/cifar10/**
 **/models/**
